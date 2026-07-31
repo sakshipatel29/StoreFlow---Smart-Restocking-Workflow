@@ -1,3 +1,5 @@
 window.STOREFLOW_CONFIG = {
-  apiBase: "http://localhost:8001/api/v1",
+  apiBase: "https://storeflow-api-0h7y.onrender.com/api/v1",
+  demoEmail: "admin@storeflow.demo",
+  demoPassword: "StoreFlowDemo2026!",
 };

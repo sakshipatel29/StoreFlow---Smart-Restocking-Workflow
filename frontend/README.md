@@ -1,67 +1,41 @@
-# StoreFlow Frontend v3 — Authenticated API Client
+# StoreFlow Frontend v4 — Production Deployment
 
-This frontend connects to StoreFlow Backend v2 and adds a complete login/session workflow.
-
-## Included
-
-- Portfolio-quality sign-in screen
-- Demo credentials shown in the UI
-- Bearer token added to every protected API request
-- Token stored in `sessionStorage`, not persistent browser storage
-- Current user displayed in the top bar
-- Sign-out button
-- Admin-only **Reset demo data** action
-- Authenticated purchase-order CSV downloads
-- Existing dashboard, product, inventory, sales, reorder, and purchase-order workflows
-
-## Requirements
-
-StoreFlow Backend v2 must be running at:
+This frontend is configured for the public StoreFlow FastAPI service:
 
 ```text
-http://localhost:8001
+https://storeflow-api-0h7y.onrender.com/api/v1
 ```
 
-## Run
-
-```bash
-cd storeflow-frontend-v3-auth
-python3 -m http.server 4173
-```
-
-Open:
-
-```text
-http://localhost:4173
-```
-
-Perform a hard refresh after replacing the previous frontend:
-
-```text
-Command + Shift + R
-```
-
-## Login
+## Public demo login
 
 ```text
 Email:    admin@storeflow.demo
-Password: StoreFlow123!
+Password: StoreFlowDemo2026!
 ```
 
-## Verify the session
+The demo login is intentionally public for recruiters and portfolio reviewers. It is not the Neon database password.
 
-1. Sign in.
-2. Refresh the browser. You should remain signed in within that tab.
-3. Open a second new tab manually. It receives its own tab session.
-4. Select the sign-out icon. The protected application should disappear.
-5. Sign in again and use **Reset demo data** to restore the original portfolio dataset.
+Before using this frontend, set the Render backend environment variable to the same value:
 
-## API configuration
-
-Edit `config.js` only when the backend address changes:
-
-```javascript
-window.STOREFLOW_CONFIG = {
-  apiBase: "http://localhost:8001/api/v1",
-};
+```text
+DEMO_ADMIN_PASSWORD=StoreFlowDemo2026!
 ```
+
+Then redeploy the backend so the seed script updates the demo account password.
+
+## Local preview
+
+```bash
+python3 -m http.server 4173
+```
+
+Open `http://localhost:4173`.
+
+## Render static-site settings
+
+- Service type: Static Site
+- Root Directory: `frontend`
+- Build Command: `echo "No build required"`
+- Publish Directory: `.`
+
+After Render creates the frontend URL, add that exact HTTPS URL to the backend `CORS_ORIGINS` environment variable.
