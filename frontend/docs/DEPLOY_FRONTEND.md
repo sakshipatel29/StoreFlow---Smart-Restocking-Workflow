@@ -9,7 +9,7 @@ Replace the repository's `frontend` directory with this folder's contents, or co
 In the Render backend service, set:
 
 ```text
-DEMO_ADMIN_PASSWORD=StoreFlowDemo2026!
+DEMO_ADMIN_PASSWORD=StoreFlowDemo#2026Secure!
 ```
 
 Save and deploy. This password is intentionally public and is separate from the private Neon database password.
@@ -57,7 +57,7 @@ Open the frontend URL and sign in using:
 
 ```text
 admin@storeflow.demo
-StoreFlowDemo2026!
+StoreFlowDemo#2026Secure!
 ```
 
 Test dashboard loading, inventory adjustment persistence, sales import, recommendation generation, purchase-order creation, and sign-out.

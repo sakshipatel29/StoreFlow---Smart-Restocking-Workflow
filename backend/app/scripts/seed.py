@@ -10,7 +10,7 @@ from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
-from app.core.security import hash_password
+from app.core.security import hash_password, verify_password
 from app.db.session import SessionLocal
 from app.models import (
     InventoryTransaction,
@@ -36,15 +36,34 @@ def read_csv(name: str) -> list[dict[str, str]]:
 def ensure_demo_user(db: Session) -> User:
     email = settings.demo_admin_email.strip().lower()
     user = db.scalar(select(User).where(User.email == email))
+
     if user:
+        # Keep the deployed demo account synchronized with Render settings.
+        if not verify_password(
+            settings.demo_admin_password,
+            user.password_hash,
+        ):
+            user.password_hash = hash_password(
+                settings.demo_admin_password
+            )
+
+        user.full_name = settings.demo_admin_name
+        user.role = "admin"
+        user.is_active = True
+
+        db.flush()
         return user
+
     user = User(
         email=email,
         full_name=settings.demo_admin_name,
-        password_hash=hash_password(settings.demo_admin_password),
+        password_hash=hash_password(
+            settings.demo_admin_password
+        ),
         role="admin",
         is_active=True,
     )
+
     db.add(user)
     db.flush()
     return user
