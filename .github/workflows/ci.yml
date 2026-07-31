@@ -1,0 +1,178 @@
+name: StoreFlow CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: storeflow-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend-tests:
+    name: Backend tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      ENVIRONMENT: test
+      DATABASE_URL: sqlite:///./storeflow-ci.db
+      AUTH_SECRET_KEY: storeflow-ci-secret-not-for-production
+      ACCESS_TOKEN_MINUTES: "10"
+      CORS_ORIGINS: '["http://localhost:4173"]'
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements-dev.txt
+
+      - name: Install backend dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      - name: Compile backend source
+        run: python -m compileall -q app
+
+      - name: Run backend tests
+        run: python -m pytest -q
+
+  postgres-smoke-test:
+    name: PostgreSQL migration and seed
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: storeflow
+          POSTGRES_USER: storeflow
+          POSTGRES_PASSWORD: storeflow
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U storeflow -d storeflow"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      ENVIRONMENT: test
+      DATABASE_URL: postgresql+psycopg://storeflow:storeflow@localhost:5432/storeflow
+      AUTH_SECRET_KEY: storeflow-ci-secret-not-for-production
+      ACCESS_TOKEN_MINUTES: "10"
+      CORS_ORIGINS: '["http://localhost:4173"]'
+      DEMO_ADMIN_EMAIL: admin@storeflow.demo
+      DEMO_ADMIN_PASSWORD: StoreFlow123!
+      DEMO_ADMIN_NAME: Northside Store Owner
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install backend dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Run database migrations
+        run: alembic upgrade head
+
+      - name: Seed demo dataset
+        run: python -m app.scripts.seed
+
+      - name: Verify seeded records
+        run: |
+          python - <<'PY'
+          from sqlalchemy import func, select
+
+          from app.db.session import SessionLocal
+          from app.models import Product, Sale, Supplier, User
+
+          with SessionLocal() as db:
+              suppliers = db.scalar(select(func.count(Supplier.id)))
+              products = db.scalar(select(func.count(Product.id)))
+              sales = db.scalar(select(func.count(Sale.id)))
+              users = db.scalar(select(func.count(User.id)))
+
+          assert suppliers == 4, suppliers
+          assert products == 48, products
+          assert sales == 4067, sales
+          assert users >= 1, users
+          print(
+              f"Verified {suppliers} suppliers, {products} products, "
+              f"{sales} sales, and {users} user(s)."
+          )
+          PY
+
+  frontend-checks:
+    name: Frontend checks
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      - name: Validate JavaScript syntax
+        run: |
+          node --check app.js
+          node --check config.js
+
+      - name: Smoke-test static frontend
+        run: |
+          python3 -m http.server 4173 > /tmp/storeflow-frontend.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+
+          for attempt in {1..10}; do
+            if curl --fail --silent --show-error http://127.0.0.1:4173/index.html > /tmp/storeflow-index.html; then
+              break
+            fi
+            sleep 1
+          done
+
+          grep -q "StoreFlow" /tmp/storeflow-index.html
+          curl --fail --silent --show-error http://127.0.0.1:4173/app.js > /dev/null
+          curl --fail --silent --show-error http://127.0.0.1:4173/styles.css > /dev/null
+
+  docker-build:
+    name: Backend Docker build
+    runs-on: ubuntu-latest
+    needs:
+      - backend-tests
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Build backend image
+        run: docker build --tag storeflow-api:ci ./backend
