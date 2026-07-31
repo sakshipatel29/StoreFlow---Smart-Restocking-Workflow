@@ -1,0 +1,5 @@
+id,name,email,phone,delivery_days,minimum_order_amount
+SUP-001,Metro Beverage Distribution,orders@metrobeverage.example,(312) 555-0142,"Tue, Fri",250.00
+SUP-002,Great Lakes Snacks,wholesale@greatlakessnacks.example,(773) 555-0198,Wed,175.00
+SUP-003,Midwest Candy Supply,orders@midwestcandy.example,(847) 555-0116,Thu,125.00
+SUP-004,Neighborhood Essentials,sales@neighborhoodessentials.example,(708) 555-0164,"Mon, Thu",200.00

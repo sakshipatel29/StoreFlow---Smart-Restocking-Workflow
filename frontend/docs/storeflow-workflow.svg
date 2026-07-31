@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="520" viewBox="0 0 1400 520">
+  <defs><style>.title{font:700 24px Arial;fill:#172033}.label{font:700 16px Arial;fill:#172033}.sub{font:400 12px Arial;fill:#6b7486}.box{fill:white;stroke:#dfe5ee;stroke-width:2}.arrow{stroke:#0e8f83;stroke-width:3;fill:none;marker-end:url(#m)}.num{fill:#0e8f83}.numText{font:700 14px Arial;fill:white}</style><marker id="m" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#0e8f83"/></marker></defs>
+  <rect width="1400" height="520" fill="#f4f7fb"/><text x="60" y="65" class="title">StoreFlow end-to-end customer workflow</text>
+  <g transform="translate(55 150)"><rect class="box" rx="18" width="190" height="150"/><circle class="num" cx="32" cy="32" r="18"/><text class="numText" x="28" y="37">1</text><text class="label" x="25" y="78">Import sales</text><text class="sub" x="25" y="105">POS CSV or barcode data</text><text class="sub" x="25" y="124">enters the workflow</text></g>
+  <path class="arrow" d="M255 225 H300"/>
+  <g transform="translate(310 150)"><rect class="box" rx="18" width="190" height="150"/><circle class="num" cx="32" cy="32" r="18"/><text class="numText" x="28" y="37">2</text><text class="label" x="25" y="78">Validate</text><text class="sub" x="25" y="105">Match barcodes, reject errors,</text><text class="sub" x="25" y="124">prevent duplicate imports</text></g>
+  <path class="arrow" d="M510 225 H555"/>
+  <g transform="translate(565 150)"><rect class="box" rx="18" width="190" height="150"/><circle class="num" cx="32" cy="32" r="18"/><text class="numText" x="28" y="37">3</text><text class="label" x="25" y="78">Update inventory</text><text class="sub" x="25" y="105">Sales lower stock and create</text><text class="sub" x="25" y="124">an auditable transaction</text></g>
+  <path class="arrow" d="M765 225 H810"/>
+  <g transform="translate(820 150)"><rect class="box" rx="18" width="190" height="150"/><circle class="num" cx="32" cy="32" r="18"/><text class="numText" x="28" y="37">4</text><text class="label" x="25" y="78">Recommend</text><text class="sub" x="25" y="105">Use sales velocity, lead time,</text><text class="sub" x="25" y="124">safety stock, and case packs</text></g>
+  <path class="arrow" d="M1020 225 H1065"/>
+  <g transform="translate(1075 150)"><rect class="box" rx="18" width="260" height="150"/><circle class="num" cx="32" cy="32" r="18"/><text class="numText" x="28" y="37">5</text><text class="label" x="25" y="78">Approve and receive</text><text class="sub" x="25" y="105">Owner reviews supplier orders;</text><text class="sub" x="25" y="124">delivery updates stock</text></g>
+  <text x="60" y="385" class="label">Customer value</text><text x="60" y="420" class="sub">Replace weekly shelf-by-shelf order writing with exception review, explainable recommendations, and supplier-ready purchase orders.</text>
+</svg>

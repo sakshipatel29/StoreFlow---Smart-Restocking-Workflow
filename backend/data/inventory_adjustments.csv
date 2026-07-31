@@ -1,0 +1,4 @@
+created_at,barcode,transaction_type,quantity_change,notes
+2026-07-28T08:40:00,490000000015,DAMAGE,-2,Two crushed bags found during shelf check
+2026-07-29T18:10:00,490000000032,EXPIRATION,-3,Expired candy removed
+2026-07-30T07:55:00,490000000039,MANUAL_ADJUSTMENT,2,Physical count correction
