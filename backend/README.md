@@ -18,7 +18,7 @@ Production-readiness step for the StoreFlow forward-deployed inventory project.
 
 ```text
 Email:    admin@storeflow.demo
-Password: StoreFlow123!
+Password: StoreFlowDemo#2026Secure!
 ```
 
 These credentials are intentionally included for a portfolio demo. Replace them and change `AUTH_SECRET_KEY` before a real production deployment.
@@ -58,7 +58,7 @@ Open:
 ```bash
 curl -X POST http://localhost:8001/api/v1/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@storeflow.demo","password":"StoreFlow123!"}'
+  -d '{"email":"admin@storeflow.demo","password":"StoreFlowDemo#2026Secure!"}'
 ```
 
 The response includes `access_token`. In Swagger, open **Authorize** and paste:
@@ -137,7 +137,7 @@ DATABASE_URL=postgresql+psycopg://storeflow:storeflow@db:5432/storeflow
 AUTH_SECRET_KEY=replace-with-a-long-random-secret-before-production
 ACCESS_TOKEN_MINUTES=480
 DEMO_ADMIN_EMAIL=admin@storeflow.demo
-DEMO_ADMIN_PASSWORD=StoreFlow123!
+DEMO_ADMIN_PASSWORD=StoreFlowDemo#2026Secure!
 ```
 
 Generate a production secret with:

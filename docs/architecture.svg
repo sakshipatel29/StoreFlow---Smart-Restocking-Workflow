@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="720" viewBox="0 0 1400 720">
+  <defs>
+    <style>
+      .title { font: 700 34px Arial, sans-serif; fill: #102a43; }
+      .subtitle { font: 400 18px Arial, sans-serif; fill: #486581; }
+      .box { fill: #ffffff; stroke: #829ab1; stroke-width: 2; rx: 18; }
+      .accent { fill: #e6fffa; stroke: #319795; stroke-width: 2.5; rx: 18; }
+      .db { fill: #ebf8ff; stroke: #3182ce; stroke-width: 2.5; }
+      .text { font: 700 20px Arial, sans-serif; fill: #243b53; text-anchor: middle; }
+      .small { font: 400 15px Arial, sans-serif; fill: #486581; text-anchor: middle; }
+      .arrow { stroke: #627d98; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#627d98"/>
+    </marker>
+  </defs>
+  <rect width="1400" height="720" fill="#f7fafc"/>
+  <text x="700" y="60" class="title" text-anchor="middle">StoreFlow Architecture</text>
+  <text x="700" y="94" class="subtitle" text-anchor="middle">Customer-centered inventory, recommendation, and purchase-order workflow</text>
+
+  <rect x="60" y="190" width="230" height="120" class="box"/>
+  <text x="175" y="238" class="text">Store Owner</text>
+  <text x="175" y="270" class="small">Reviews, adjusts, approves</text>
+
+  <rect x="390" y="160" width="270" height="180" class="accent"/>
+  <text x="525" y="215" class="text">Web Frontend</text>
+  <text x="525" y="250" class="small">Dashboard · Inventory</text>
+  <text x="525" y="275" class="small">Sales · Recommendations</text>
+  <text x="525" y="300" class="small">Purchase orders</text>
+
+  <rect x="770" y="135" width="300" height="230" class="accent"/>
+  <text x="920" y="190" class="text">FastAPI Backend</text>
+  <text x="920" y="228" class="small">Authentication</text>
+  <text x="920" y="253" class="small">Inventory ledger</text>
+  <text x="920" y="278" class="small">Sales validation</text>
+  <text x="920" y="303" class="small">Reorder engine</text>
+  <text x="920" y="328" class="small">Purchase-order service</text>
+
+  <ellipse cx="1240" cy="250" rx="110" ry="48" class="db"/>
+  <rect x="1130" y="250" width="220" height="95" class="db"/>
+  <ellipse cx="1240" cy="345" rx="110" ry="48" class="db"/>
+  <text x="1240" y="282" class="text">PostgreSQL</text>
+  <text x="1240" y="316" class="small">Neon managed database</text>
+
+  <path d="M290 250 L390 250" class="arrow"/>
+  <path d="M660 250 L770 250" class="arrow"/>
+  <path d="M1070 250 L1130 250" class="arrow"/>
+
+  <rect x="390" y="500" width="270" height="110" class="box"/>
+  <text x="525" y="545" class="text">Render Static Site</text>
+  <text x="525" y="578" class="small">Public frontend deployment</text>
+
+  <rect x="770" y="500" width="300" height="110" class="box"/>
+  <text x="920" y="545" class="text">Render Web Service</text>
+  <text x="920" y="578" class="small">Containerized FastAPI deployment</text>
+
+  <rect x="60" y="500" width="230" height="110" class="box"/>
+  <text x="175" y="545" class="text">GitHub Actions</text>
+  <text x="175" y="578" class="small">Tests · Migrations · Build</text>
+
+  <path d="M290 555 L390 555" class="arrow"/>
+  <path d="M660 555 L770 555" class="arrow"/>
+  <path d="M920 500 L920 365" class="arrow"/>
+  <path d="M525 500 L525 340" class="arrow"/>
+</svg>
